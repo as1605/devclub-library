@@ -9,9 +9,7 @@
                 <div class="card-body">
                     <h5 class="card-title">{{book.title}}</h5>
                     <p class="card-text"><i>{{book.author}}</i> <br> {{book.publisher}} | {{book.genre}}</p>
-                    {% if book.available %}
-                        <a href="#" class="btn btn-primary">Request</a>
-                    {% endif %}
+                    <a href="/books/{{book.id}}" class="btn btn-primary">View</a>
                 </div>
             </div>
         </div>

@@ -16,15 +16,13 @@ class Request(models.Model):
     userid= models.IntegerField()
     bookid= models.IntegerField()
     requesttime = models.DateTimeField(auto_now_add=True)
-    approved = models.BooleanField()
+    approved = models.BooleanField(default=False)
 
 class Issue(models.Model):
-    userid= models.IntegerField()
     requestid = models.IntegerField()
     approvetime= models.DateTimeField(auto_now_add=True)
     due= models.DateTimeField()
 
 class Return(models.Model):
-    userid= models.IntegerField()
     issueid = models.IntegerField() 
     returntime= models.DateTimeField(auto_now_add=True)
