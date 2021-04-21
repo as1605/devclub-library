@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class='navbar'><h1>Books</h1></div>
+    <div class="row">
+    {% for book in books %}
+        <div class="col">
+            <div class="card" style="width: 18rem;">
+                <img src="{{book.img}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{book.title}}</h5>
+                    <p class="card-text"><i>{{book.author}}</i> <br> {{book.publisher}} | {{book.genre}}</p>
+                    {% if book.available %}
+                        <a href="#" class="btn btn-primary">Request</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock content %}
