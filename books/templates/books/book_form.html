@@ -3,7 +3,7 @@
     <div class='navbar'><h1>New Book</h1></div>
     <form method='POST'> 
     {% csrf_token %}
-    {{form.as_p}}
+        {{form.as_p}}
     <input type="submit" value="Save"/>
     </form>
 {% endblock content %}

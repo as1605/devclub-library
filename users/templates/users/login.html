@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+    <form method="POST">
+        <legend>Log In</legend>
+        {% csrf_token %}
+        {{form.as_p}}
+        <button class="btn btn-outline-info" type="submit">Log In</button>
+    </form>
+    <div class="border-top pt-3">
+        <small class="text-muted">
+        Need an account? <a class="ml-2" href="{%url 'register'%}">Sign Up</a>
+        </small>
+    </div>
+{% endblock content %}

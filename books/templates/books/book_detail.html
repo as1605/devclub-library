@@ -4,19 +4,19 @@
     <div class="card" style="width: 36rem;">
          
         <div class="card-body">
-            <h5 class="card-title">{{book.title}}</h5>
-            <p class="card-text"><i>{{book.author}}</i> <br> {{book.publisher}} | {{book.genre}}</p>
+            <h5 class="card-title">{{object.title}}</h5>
+            <p class="card-text"><i>{{object.author}}</i> <br> {{object.publisher}} | {{object.genre}}</p>
         </div>
         <ul class="list-group list-group-flush">
-            <li class="list-group-item">{{book.summary}}</li>
-            <li class="list-group-item">ISBN: {{book.ISBN}}</li>
-            <li class="list-group-item">Location: {{book.location}}</li>
+            <li class="list-group-item">{{object.summary}}</li>
+            <li class="list-group-item">ISBN: {{object.ISBN}}</li>
+            <li class="list-group-item">Location: {{object.location}}</li>
         </ul>
         <div class="card-body">
-            {% if book.available %}
+            {% if object.available %}
                 <form method='POST'> 
                     {% csrf_token %}
-                    <input type="hidden" value={{book.id}} name="bookid">
+                    <input type="hidden" value={{object.id}} name="bookid">
                     <input type="hidden" value={{request.user.id}} name="userid">
                     <input type="submit" value="Request" class="btn btn-primary"/>
                 </form>
@@ -24,6 +24,6 @@
                 <div class="btn btn-secondary"> Not Available</div>
             {% endif %}
         </div>
-        <img src="{{book.img}}" class="card-img-left" alt="...">
+        <img src="{{object.img}}" class="card-img-left" alt="...">
     </div>
 {% endblock content %}
