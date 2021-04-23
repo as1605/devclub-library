@@ -17,13 +17,13 @@
         {% if perms.books.add_book%}
           <a href="{%url 'book-new'%}"><button class="btn btn-primary">New Book</button></a>
         {% endif %}
-        {% if perms.books.add_issue%}
+        {% if perms.books.view_request%}
           <a href="{%url 'request-list'%}"><button class="btn btn-primary">Requests</button></a>
         {% endif %}
-        {% if perms.books.add_return%}
+        {% if perms.books.view_issue%}
           <a href="{%url 'issue-list'%}"><button class="btn btn-primary">Issued</button></a>
         {% endif %}
-        {% if perms.books.add_return%}
+        {% if perms.books.view_return%}
           <a href="{%url 'return-list'%}"><button class="btn btn-primary">Returned</button></a>
         {% endif %}
         {% if user.is_authenticated %}

@@ -1,4 +1,48 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1>{{user}}</h1>
+<h1>{{user}}</h1>
+<h2>My Books</h2>
+<div class="table-responsive">
+    <table class="table table-dark table-bordered">
+        <thead>
+            <tr class="table-active">
+                <th scope="col">Book ID</th>
+                <th scope="col">Book Title</th>
+                <th scope="col">Request ID</th>
+                <th scope="col">Requested at</th>
+                <th scope="col">Issue ID</th>
+                <th scope="col">Issued at</th>
+                <th scope="col">Due by</th>
+                <th scope="col">Return ID</th>
+                <th scope="col">Returned at</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for o in obj %}
+            <tr>
+                <th scope="row" class="bg-{% if o.book.available %}primary{% else %}success{% endif %}">{{o.book.id}}</th>
+                <td class="bg-{% if o.book.available %}primary{% else %}success{% endif %}">{{o.book.title}}</td>
+                <td class="bg-{% if o.req.approved %}success{% else %}primary{% endif %}">{{o.req.id}}</td>
+                <td class="bg-{% if o.req.approved %}success{% else %}primary{% endif %}">{{o.req.requesttime}}</td>
+                {% if o.iss %}
+                    <td class="bg-{% if o.iss.returned %}success{% else %}primary{% endif %}">{{o.iss.id}}</td>
+                    <td class="bg-{% if o.iss.returned %}success{% else %}primary{% endif %}">{{o.iss.approvetime}}</td>
+                    <td class="bg-{% if o.iss.returned %}success{% else %}primary{% endif %}">{{o.iss.due}}</td>
+                {% else %}
+                    <td class="bg-warning"></td>
+                    <td class="bg-warning"></td>
+                    <td class="bg-warning"></td>
+                {% endif %}
+                {% if o.ret %}
+                    <td class="bg-success">{{o.ret.id}}</td>
+                    <td class="bg-success">{{o.ret.returntime}}</td>
+                {% else %}
+                    <td class="bg-danger"></td>
+                    <td class="bg-danger"></td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+</table>
+</div>
 {% endblock content %}

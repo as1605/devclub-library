@@ -8,16 +8,37 @@ from .models import Book, Request, Issue, Return
 from .forms import BookForm, RequestForm, IssueForm, ReturnForm
 # Create your views here.
 
-#def index(request):
-#    books = Book.objects.all()
-#    return render(request, 'books/index.html', {'books': books})
 
-#@permission_required('books.view_book')
-class BookListView(ListView):
-    model = Book
-    context_object_name = 'books'
-    ordering = ['title']
-    paginate_by = 20
+@permission_required('books.view_book')
+def index(request):
+    books = Book.objects.all()
+    q=request.GET.get("q")
+    title=request.GET.get("title")
+    author=request.GET.get("author")
+    publisher=request.GET.get("publisher")
+    genre=request.GET.get("genre")
+    summary=request.GET.get("summary")
+    ISBN=request.GET.get("ISBN")
+    available=request.GET.get("available") 
+    t = []
+    if q:
+        for b in books:
+            if available and not b.available:
+                continue
+            if title and b.title.upper().find(title.upper())>=0:
+                t.append(b)
+            elif author and b.author.upper().find(author.upper())>=0:
+                t.append(b)
+            elif publisher and b.publisher.upper().find(publisher.upper())>=0:
+                t.append(b)
+            elif genre and b.genre.upper().find(genre.upper())>=0:
+                t.append(b)
+            elif summary and b.summary.upper().find(summary.upper())>=0:
+                t.append(b)
+            elif ISBN and b.ISBN.upper().find(ISBN.upper())>=0:
+                t.append(b)
+        books = t
+    return render(request, 'books/book_list.html', {'books': books})
 
 
 @permission_required('books.add_book')
@@ -38,13 +59,13 @@ def details(request, id):
     object = Book.objects.get(id=id)
     if form.is_valid():
         form.instance.bookid = object.id
-        form.instance.userid = id
+        form.instance.userid = request.user.id
         form.save()
         messages.success(request, "Book successfuly requested!")
     return render(request, 'books/book_detail.html', {'object': object, 'form': form})
 
 
-@permission_required('books.add_issue') #should have been a more relevant permission
+@permission_required('books.view_request')
 def requests(request):
     reqs = Request.objects.all()
     reqs = reqs[::-1]
@@ -82,7 +103,7 @@ def approve(request, id):
     return render(request, 'books/request_detail.html', {'obj': obj, 'form': form})
 
 
-@permission_required('books.add_return') #should have been a more relevant permission
+@permission_required('books.view_issue')
 def issued(request):
     issues = Issue.objects.all()
     issues = issues[::-1]
@@ -124,7 +145,7 @@ def returned(request, id):
     return render(request, 'books/issue_detail.html', {'obj': obj, 'form': form})
 
 
-@permission_required('books.add_return') #should have been a more relevant permission
+@permission_required('books.view_return')
 def returns(request):
     rets = Return.objects.all()
     rets = rets[::-1]
