@@ -1,7 +1,6 @@
 from django.shortcuts import render
-from django.http import HttpResponse
 from django.contrib import messages
-from django.views.generic import ListView
+from django.core.mail import send_mail
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.models import User
 from .models import Book, Request, Issue, Return
@@ -47,6 +46,15 @@ def new_book(request):
     if form.is_valid():
         form.save()
         messages.success(request, "Book successfuly saved!")
+        body = "Hi "+str(request.user.username)+"! "
+        body +="You have added a new book "
+        body +=str(form.instance.title)
+        body +=" by "
+        body +=str(form.instance.author)
+        body +=". Book ID: "
+        body +=str(form.instance.id)
+        body +=". Thanks for using our library!"
+        send_mail("Book added", body, "devclub.library@gmail.com", {request.user.email},fail_silently=True)
     context = {
         'form': form
     }
@@ -62,6 +70,15 @@ def details(request, id):
         form.instance.userid = request.user.id
         form.save()
         messages.success(request, "Book successfuly requested!")
+        body = "Hi "+str(request.user.username)+"! "
+        body +="You have requested a book "
+        body +=str(object.title)
+        body +=" by "
+        body +=str(object.author)
+        body +=". Book ID: "
+        body +=str(object.id)
+        body +=". Thanks for using our library!"
+        send_mail("Book requested", body, "devclub.library@gmail.com", {request.user.email},fail_silently=True)
     return render(request, 'books/book_detail.html', {'object': object, 'form': form})
 
 
@@ -100,6 +117,17 @@ def approve(request, id):
         obj["req"].approved=True
         obj["req"].save()
         messages.success(request, "Book successfully issued!")
+        body = "Hi "+str(obj["student"].username)+"! "
+        body +="Your book request has been approved! You have been issued "
+        body +=str(obj["book"].title)
+        body +=" by "
+        body +=str(obj["book"].author)
+        body +=". Book ID: "
+        body +=str(obj["book"].id)
+        body +=". Please return it by "
+        body +=str(form.instance.due)
+        body +=". Thanks for using our library!"
+        send_mail("Book issued", body, "devclub.library@gmail.com", {obj["student"].email},fail_silently=True)
     return render(request, 'books/request_detail.html', {'obj': obj, 'form': form})
 
 
@@ -142,6 +170,15 @@ def returned(request, id):
         obj["iss"].returned=True
         obj["iss"].save()
         messages.success(request, "Book successfully returned!")
+        body = "Hi "+str(obj["student"].username)+"! "
+        body +="You have returned "
+        body +=str(obj["book"].title)
+        body +=" by "
+        body +=str(obj["book"].author)
+        body +=". Book ID: "
+        body +=str(obj["book"].id)
+        body +=". Thanks for using our library!"
+        send_mail("Book returned", body, "devclub.library@gmail.com", {obj["student"].email},fail_silently=True)
     return render(request, 'books/issue_detail.html', {'obj': obj, 'form': form})
 
 

@@ -15,7 +15,9 @@ class BookForm(forms.ModelForm):
             'location',
             'available',
             'img',
+            'pdf',
         ]
+
 
 class RequestForm(forms.ModelForm):
     class Meta:
@@ -23,12 +25,14 @@ class RequestForm(forms.ModelForm):
         fields = [
         ]
 
+
 class IssueForm(forms.ModelForm):
     class Meta:
         model=Issue
         fields = [
             'due',
         ]
+
 
 class ReturnForm(forms.ModelForm):
     class Meta:

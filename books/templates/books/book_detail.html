@@ -13,13 +13,16 @@
             <li class="list-group-item">Location: {{object.location}}</li>
         </ul>
         <div class="card-body">
+            {% if object.pdf %}
+                <a target="_blank" href="{{object.pdf}}" class="btn btn-warning">PDF</a>
+            {% endif %}
             {% if object.available %}
                 <form method='POST'> 
                     {% csrf_token %}
-                    <input type="submit" value="Request" class="btn btn-primary"/>
+                    <input type="submit" value="Request Book" class="btn btn-primary"/>
                 </form>
             {% else %}
-                <div class="btn btn-secondary"> Not Available</div>
+                <div class="btn btn-secondary">Not Available</div>
             {% endif %}
         </div>
         <img src="{{object.img}}" class="card-img-left" alt="...">

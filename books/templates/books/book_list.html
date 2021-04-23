@@ -18,9 +18,14 @@
             <div class="card" style="width: 18rem;">
                 <img src="{{book.img}}" class="card-img-top" alt="...">
                 <div class="card-body">
-                    <h5 class="card-title">{{book.title}}</h5>
+                    <h5 class="card-title">
+                      {{book.title}}
+                      {% if book.available %}<div class="btn btn-success"></div>{% endif %}
+                      {% if book.pdf %}<div class="btn btn-warning"></div>{% endif %}
+                    </h5>
                     <p class="card-text"><i>{{book.author}}</i> <br> {{book.publisher}} | {{book.genre}}</p>
                     <a href="/books/{{book.id}}" class="btn btn-primary">View</a>
+                    
                 </div>
             </div>
         </div>
