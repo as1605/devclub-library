@@ -16,8 +16,6 @@
             {% if object.available %}
                 <form method='POST'> 
                     {% csrf_token %}
-                    <input type="hidden" value={{object.id}} name="bookid">
-                    <input type="hidden" value={{request.user.id}} name="userid">
                     <input type="submit" value="Request" class="btn btn-primary"/>
                 </form>
             {% else %}

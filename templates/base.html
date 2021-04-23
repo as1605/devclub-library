@@ -13,13 +13,25 @@
   <body>
     <nav class="navbar navbar-dark bg-dark">
       <div class="container">
-        <a href="../books"><button class="btn btn-primary">Books</button></a>
-        <a href="../books/new"><button class="btn btn-primary">New Book</button></a>
-        <a href="{%url 'login'%}"><button class="btn btn-primary">Log in</button></a>
-        <a href="{%url 'register'%}"><button class="btn btn-primary">Register</button></a>
+        <a href="{%url 'book-list'%}"><button class="btn btn-primary">Books</button></a>
+        {% if perms.books.add_book%}
+          <a href="{%url 'book-new'%}"><button class="btn btn-primary">New Book</button></a>
+        {% endif %}
+        {% if perms.books.add_issue%}
+          <a href="{%url 'request-list'%}"><button class="btn btn-primary">Requests</button></a>
+        {% endif %}
+        {% if perms.books.add_return%}
+          <a href="{%url 'issue-list'%}"><button class="btn btn-primary">Issued</button></a>
+        {% endif %}
+        {% if perms.books.add_return%}
+          <a href="{%url 'return-list'%}"><button class="btn btn-primary">Returned</button></a>
+        {% endif %}
         {% if user.is_authenticated %}
-        <a href="{%url 'profile'%}"><button class="btn btn-secondary"><small>Logged in as</small> {{user}}</button></a>
-        <a href="{%url 'logout'%}"><button class="btn btn-primary">Log out</button></a>
+          <a href="{%url 'profile'%}"><button class="btn btn-secondary"><small>Logged in as</small> {{user}}</button></a>
+          <a href="{%url 'logout'%}"><button class="btn btn-primary">Log out</button></a>
+        {% else %}
+          <a href="{%url 'login'%}"><button class="btn btn-primary">Log in</button></a>
+          <a href="{%url 'register'%}"><button class="btn btn-primary">Register</button></a>
         {% endif %}
       </div>
     </nav>

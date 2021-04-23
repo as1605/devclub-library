@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Book, Request, Issue
+from .models import Book, Request, Issue, Return
 
 class BookForm(forms.ModelForm):
     class Meta:
@@ -21,6 +21,17 @@ class RequestForm(forms.ModelForm):
     class Meta:
         model=Request
         fields = [
-            'userid',
-            'bookid',
+        ]
+
+class IssueForm(forms.ModelForm):
+    class Meta:
+        model=Issue
+        fields = [
+            'due',
+        ]
+
+class ReturnForm(forms.ModelForm):
+    class Meta:
+        model=Return
+        fields = [
         ]

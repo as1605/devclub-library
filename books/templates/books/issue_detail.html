@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+    <legend><h1>View Issue Details</h1></legend>
+    <div class="card" style="width: 36rem;">
+        <div class="card-body">
+            <h5 class="card-title">{{obj.book.title}}</h5>
+            <p class="card-text"><i>{{obj.book.author}}</i> <br> {{obj.book.publisher}} | {{obj.book.genre}}</p>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">{{obj.book.summary}}</li>
+            <li class="list-group-item">ISBN: {{obj.book.ISBN}}</li>
+            <li class="list-group-item">Location: {{obj.book.location}}</li>
+            <li class="list-group-item active">Requested by {{obj.student.username}}</li>
+            <li class="list-group-item active">Approved at {{obj.iss.approvetime}}</li>
+            <li class="list-group-item active">Due by {{obj.iss.due}}</li>
+        </ul>
+        <div class="card-body">
+            {% if obj.iss.returned %}
+                <div class="btn btn-success">Returned</div>
+            {% else %}
+                <form method='POST'> 
+                    {% csrf_token %}
+                    <input type="submit" value="Return" class="btn btn-primary"/>
+                </form>
+            {% endif %}
+        </div>
+        <img src="{{obj.book.img}}" class="card-img-left" alt="...">
+    </div>
+{% endblock content %}
