@@ -1,9 +1,34 @@
 {% extends 'base.html' %}
+{% block title %}New Book{% endblock title %}
 {% block content %}
     <div class='navbar'><h1>New Book</h1></div>
     <form method='POST'> 
     {% csrf_token %}
         {{form.as_p}}
-    <input type="submit" value="Save"/>
+    <input type="submit" value="Save" class="btn btn-primary"/>
+    <button class="btn btn-success" onclick=autofill()>Auto Fill using ISBN</button>
     </form>
+    <script>
+        function autofill() {
+            let isbn = document.getElementById("id_ISBN").value;
+            if (isbn=="") return alert("Enter ISBN in the form");
+            let url = "https://www.googleapis.com/books/v1/volumes?q=isbn:" + isbn;
+            let api = new XMLHttpRequest();
+            api.open("GET", url, false);
+            api.send();
+            let results = JSON.parse(api.response);
+            if (results.totalItems) {
+                let book = results.items[0];
+                document.getElementById("id_title").value = book["volumeInfo"]["title"];
+                document.getElementById("id_author").value = book["volumeInfo"]["authors"].join();
+                document.getElementById("id_publisher").value = book["volumeInfo"]["publisher"];
+                document.getElementById("id_genre").value = book["volumeInfo"]["categories"].join();
+                document.getElementById("id_summary").value = book["volumeInfo"]["description"];
+                document.getElementById("id_img").value = book["volumeInfo"]["imageLinks"]["thumbnail"];
+                if (book["accessInfo"]["pdf"].isAvailable) {
+                    document.getElementById("id_pdf").value = book["accessInfo"]["pdf"].downloadLink;
+                }
+            } else alert("Google Books API could not find a book with ISBN "+isbn);
+        }
+    </script>
 {% endblock content %}

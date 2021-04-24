@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% block title %}Requests{% endblock title %}
 {% block content %}
     <legend><h1>Book Requests</h1></legend>
     <table class="table">
@@ -22,7 +23,7 @@
                 <td>{{o.student.username}}</td>
                 <td>{{o.book.id}}</td>
                 <td>{{o.book.title}}</td>
-                <td><a href="./requests/{{o.req.id}}" class="btn btn-{%if o.req.approved%}success{%else%}danger{% endif %}">View</a></td>
+                <td><a href="{%url 'request-list'%}{{o.req.id}}" class="btn btn-{%if o.req.approved%}success{%else%}danger{% endif %}">View</a></td>
             </tr>
         {% endfor %}
         </tbody>

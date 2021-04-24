@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% block title %}Search Books{% endblock title %}
 {% block content %}
     <div class='navbar'><h1>Books</h1></div>
     <form method="GET" action='' class="form-inline">
@@ -24,8 +25,7 @@
                       {% if book.pdf %}<div class="btn btn-warning"></div>{% endif %}
                     </h5>
                     <p class="card-text"><i>{{book.author}}</i> <br> {{book.publisher}} | {{book.genre}}</p>
-                    <a href="/books/{{book.id}}" class="btn btn-primary">View</a>
-                    
+                    <a href="{%url 'book-list'%}{{book.id}}" class="btn btn-primary">View</a>
                 </div>
             </div>
         </div>

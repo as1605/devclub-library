@@ -9,7 +9,7 @@ from .forms import BookForm, RequestForm, IssueForm, ReturnForm
 
 
 @permission_required('books.view_book')
-def index(request):
+def book_list(request):
     books = Book.objects.all()
     q=request.GET.get("q")
     title=request.GET.get("title")
@@ -41,7 +41,7 @@ def index(request):
 
 
 @permission_required('books.add_book')
-def new_book(request):
+def book_form(request):
     form = BookForm(request.POST or None)
     if form.is_valid():
         form.save()
@@ -62,7 +62,7 @@ def new_book(request):
 
 
 @permission_required('books.add_request')
-def details(request, id):
+def book_detail(request, id):
     form = RequestForm(request.POST or None)
     object = Book.objects.get(id=id)
     if form.is_valid():
@@ -83,7 +83,7 @@ def details(request, id):
 
 
 @permission_required('books.view_request')
-def requests(request):
+def request_list(request):
     reqs = Request.objects.all()
     reqs = reqs[::-1]
     obj = []
@@ -99,7 +99,7 @@ def requests(request):
 
 
 @permission_required('books.add_issue')
-def approve(request, id):
+def request_detail(request, id):
     r = Request.objects.get(id=id)
     u = User.objects.get(id=r.userid)
     b = Book.objects.get(id=r.bookid)
@@ -132,7 +132,7 @@ def approve(request, id):
 
 
 @permission_required('books.view_issue')
-def issued(request):
+def issue_list(request):
     issues = Issue.objects.all()
     issues = issues[::-1]
     obj = []
@@ -150,7 +150,7 @@ def issued(request):
 
 
 @permission_required('books.add_return')
-def returned(request, id):
+def issue_detail(request, id):
     i = Issue.objects.get(id=id)
     r = Request.objects.get(id=i.requestid)
     u = User.objects.get(id=r.userid)
@@ -183,7 +183,7 @@ def returned(request, id):
 
 
 @permission_required('books.view_return')
-def returns(request):
+def return_list(request):
     rets = Return.objects.all()
     rets = rets[::-1]
     obj = []

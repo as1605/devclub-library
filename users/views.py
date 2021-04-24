@@ -2,9 +2,14 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 from .forms import UserRegisterForm
 from books.models import Book, Request, Issue, Return
 # Create your views here.
+
+def home(request):
+    return render(request, 'home.html')
+
 
 def register(request):
     if request.method == 'POST':
@@ -14,6 +19,10 @@ def register(request):
             form.instance.groups.add(2)
             username = form.cleaned_data.get('username')
             messages.success(request, f'Student account created for {username}!')
+            body = "Hi "+str(username)+"! "
+            body +="You have created a student account in our library"
+            body +=". Thanks for using our library!"
+            send_mail("Student account created", body, "devclub.library@gmail.com", {form.instance.email},fail_silently=True)
             return redirect('login')
     else:
         form = UserRegisterForm()
